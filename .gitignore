@@ -1,6 +1,8 @@
-node_modules/
-.vscode/
-
-
-# dist stuff:
-/www/
+/dist
+/node_modules
+.env
+.DS_Store
+logs
+*.log
+npm-debug.log*
+yarn-error.log

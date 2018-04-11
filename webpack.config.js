@@ -8,7 +8,7 @@ const dist = path.resolve(__dirname, 'www');
 module.exports = {
     mode: 'development',
     entry: {
-        app: ['./client/index.js', 'webpack-hot-middleware/client']
+        app: ['./src/client/index.js', 'webpack-hot-middleware/client']
     },
     devtool: 'inline-source-map',
     plugins: [

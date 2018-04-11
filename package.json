@@ -6,7 +6,8 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "dev": "nodemon --config config/nodemon.json --exec babel-node dev/server",
+    "dev": "nodemon --config config/nodemon.json --exec babel-node src/server",
+    "!dev": "nodemon --config config/nodemon.json --exec babel-node dev/server",
     "build": "yarn clean && yarn build:server && yarn build:client",
     "build:client": "NODE_ENV=production webpack --config config/webpack.config.babel.js --mode production",
     "build:server": "NODE_ENV=production babel src --out-dir dist",
