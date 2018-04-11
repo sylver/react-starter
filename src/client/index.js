@@ -1,16 +1,20 @@
-import webpacklogo from './content/webpack.svg';
-import './styles/main.scss';
-import './styles/test.sass';
+/* eslint-disable react/jsx-filename-extension */
+import React              from 'react'
+import { BrowserRouter }  from 'react-router-dom'
+import { hydrate, render }        from 'react-dom'
 
-function component() {
-    var element = document.createElement('div');
-    element.innerHTML = "Hello world!";
+import App from './app'
 
-    var logo = new Image();
-    logo.src = webpacklogo;
-    element.appendChild(logo);
+const tag = document.createElement('div')
+tag.id = 'app'
+document.body.appendChild(tag)
+const container = document.getElementById('app')
 
-    return element;
-}
 
-document.body.appendChild(component());
+const Root = () => (
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+)
+
+render(<Root />, container)
