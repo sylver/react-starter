@@ -1440,6 +1440,12 @@ babel-plugin-dynamic-import-webpack@^1.0.1:
     babel-plugin-syntax-dynamic-import "^6.18.0"
     babel-template "^6.26.0"
 
+babel-plugin-inline-dotenv@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.1.2.tgz#d9b43f48b1471506bdc5fe571a067472f16aedf6"
+  dependencies:
+    dotenv "^4.0.0"
+
 babel-plugin-istanbul@^4.1.5:
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.6.tgz#36c59b2192efce81c5b378321b74175add1c9a45"
@@ -3192,6 +3198,10 @@ dot-prop@^4.1.0:
   resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-4.2.0.tgz#1f19e0c2e1aa0e32797c49799f2837ac6af69c57"
   dependencies:
     is-obj "^1.0.0"
+
+dotenv@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
 dotenv@^5.0.1:
   version "5.0.1"
