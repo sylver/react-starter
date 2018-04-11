@@ -30,14 +30,13 @@ const webpackConfig = {
       '.json',
       '.tsx',
       '.ts',
-      '.sass',
     ],
   },
   devtool: DEV_MODE ? 'inline-source-map' : 'source-map',
   module: {
     rules: [
       {
-        test: /\.sass$/,
+        test: /\.s?[ac]ss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
         // use: [
         //   'style-loader',
@@ -70,7 +69,7 @@ const webpackConfig = {
       },
       {
         test: /\.jsx?$/,
-        use: ['babel-loader', 'eslint-loader'],
+        use: ['babel-loader'], // + eslint
         exclude: /node_modules/,
       },
       { test: /\.json$/, loader: 'json-loader' },
@@ -104,21 +103,24 @@ const webpackConfig = {
       'APP_DOMAIN',
     ]),
     new HtmlWebpackPlugin({
-      hash: false,
-      inject: true,
-      filename: '../server/templates/index.ejs',
-      title: APP_NAME,
-      template: `html-loader!${INDEX_TEMPLATE}`,
-      environment: NODE_ENV,
+      title: 'Hot Module Reload'
     }),
-    new SWPrecacheWebpackPlugin({
-      cacheId: APP_NAME,
-      dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: 'service-worker.js',
-      minify: true,
-      navigateFallback: `${BASE_URL}/index.html`,
-      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-    }),
+    // new HtmlWebpackPlugin({
+    //   hash: false,
+    //   inject: true,
+    //   filename: '../server/templates/index.ejs',
+    //   title: APP_NAME,
+    //   template: `html-loader!${INDEX_TEMPLATE}`,
+    //   environment: NODE_ENV,
+    // }),
+    // new SWPrecacheWebpackPlugin({
+    //   cacheId: APP_NAME,
+    //   dontCacheBustUrlsMatching: /\.\w{8}\./,
+    //   filename: 'service-worker.js',
+    //   minify: true,
+    //   navigateFallback: `${BASE_URL}/index.html`,
+    //   staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    // }),
   ],
 }
 

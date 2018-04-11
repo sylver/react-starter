@@ -5,5 +5,5 @@
     "js": "-r @babel/register"
   },
   "ext": "js,mjs,json",
-  "watch": ["src/server", "index.js", "webpack", "webpack.config.babel.js"]
+  "watch": ["src/server", "index.js", "config"]
 }
