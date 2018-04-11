@@ -7,7 +7,7 @@ import SWPrecacheWebpackPlugin from 'sw-precache-webpack-plugin'
 
 import {
   SRC_PATH, DIST_PATH, MODULES_PATH, CONF_PATH,
-  ENTRY, APP_NAME, BASE_URL, INDEX_TEMPLATE,
+  ENTRY, APP_NAME, BASE_URL, INDEX,
   NODE_ENV, DEV_MODE,
 } from '../src/common/env'
 
@@ -103,16 +103,13 @@ const webpackConfig = {
       'APP_DOMAIN',
     ]),
     new HtmlWebpackPlugin({
-      title: 'Hot Module Reload'
+      hash: false,
+      inject: true,
+      filename: '../server/templates/index.ejs',
+      title: APP_NAME,
+      template: `html-loader!${INDEX}`,
+      environment: NODE_ENV,
     }),
-    // new HtmlWebpackPlugin({
-    //   hash: false,
-    //   inject: true,
-    //   filename: '../server/templates/index.ejs',
-    //   title: APP_NAME,
-    //   template: `html-loader!${INDEX_TEMPLATE}`,
-    //   environment: NODE_ENV,
-    // }),
     // new SWPrecacheWebpackPlugin({
     //   cacheId: APP_NAME,
     //   dontCacheBustUrlsMatching: /\.\w{8}\./,

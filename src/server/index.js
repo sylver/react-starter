@@ -1,20 +1,69 @@
-const express = require('express');
-const webpack = require('webpack');
-// const webpackconfig = require('../../webpack.config');
-const webpackconfig = require('../../config/webpack').default;
-const webpackMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
-const app = express();
+/* eslint-disable no-console */
+/* eslint-disable react/jsx-filename-extension */
+import express  from 'express'
+import morgan   from 'morgan'
+import http     from 'http'
+import fs       from 'fs'
+import { join } from 'path'
 
-app.use(express.static('../../www'));
+// import React    from 'react'
+// import { renderToString } from 'react-dom/server'
+// import { StaticRouter } from 'react-router-dom'
+import { render } from 'ejs'
 
-const webpackCompiler = webpack(webpackconfig);
-const wpmw = webpackMiddleware(webpackCompiler,{});
-app.use(wpmw);
+import { PORT, SSL, DIST_PATH, APP_NAME } from '../common/env'
+import { ForceSSLMiddleware } from './middleware'
 
-const wphmw = webpackHotMiddleware(webpackCompiler);
-app.use(wphmw);
+class Server {
+  constructor () {
+    this.app = express()
+    this.server = http.createServer(this.app)
+    this.fs = fs
+    this.template = join(DIST_PATH, 'server/templates/index.ejs')
+    this.staticPath = join(DIST_PATH, 'static')
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-});
+    this.app.disable('x-powered-by')
+    this.app.use(morgan('combined'))
+
+    SSL && this.app.use(ForceSSLMiddleware)
+
+    this.app.set('view engine', 'ejs')
+  }
+
+  start (port, callback) {
+    this.app.use(express.static(this.staticPath))
+
+    this.app.get('*', (req, res, next) => {
+    //   const { App } = this
+    //   const context = {}
+    //   const app = (
+    //     <StaticRouter context={context} location={req.url}>
+    //       <App />
+    //     </StaticRouter>
+    //   )
+      this.fs.readFile(this.template, 'utf-8', (err, data) => {
+        if (err) {
+          next(err)
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html' })
+          // res.end(render(data, { app: renderToString(app) }))
+          res.end(render(data, { app: '', title: APP_NAME }))
+        }
+      })
+    })
+
+    this.server.listen(port, callback)
+  }
+
+  stop (callback) {
+    this.server.close(callback)
+  }
+}
+
+export default Server
+
+/* Auto starting server when executed instead of imported */
+if (require.main === module) {
+  const server = new Server()
+  server.start(PORT, console.info(`Self-started server on port ${PORT}`))
+}
