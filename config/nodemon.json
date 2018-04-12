@@ -1,9 +1,9 @@
 {
-  "verbose": true,
+  "verbose": false,
   "ignore": ["node_modules"],
   "execMap": {
     "js": "-r @babel/register"
   },
   "ext": "js,mjs,json",
-  "watch": ["src/server", "index.js", "config"]
+  "watch": ["src/server", "index.js", "config", ".babelrc"]
 }

@@ -7,7 +7,7 @@ import { DEV_MODE } from '../common/env'
 
 import { HomePage, ContactPage, AboutPage } from './pages'
 
-import webpacklogo from './content/webpack.svg'
+// import webpacklogo from './content/webpack.svg'
 import './styles/main.scss'
 import './styles/test.sass'
 
@@ -24,7 +24,7 @@ const App = () => (
       </ul>
     </nav>
     <main>
-      <img src={webpacklogo} />
+      {/* <img src={webpacklogo} alt="logo" /> */}
       <Route path="/" exact component={HomePage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/contact" component={ContactPage} />

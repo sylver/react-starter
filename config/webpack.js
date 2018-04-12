@@ -2,8 +2,9 @@
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import SWPrecacheWebpackPlugin from 'sw-precache-webpack-plugin'
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import {
   SRC_PATH, DIST_PATH, MODULES_PATH, CONF_PATH,
@@ -37,40 +38,52 @@ const webpackConfig = {
     rules: [
       {
         test: /\.s?[ac]ss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-        // use: [
-        //   'style-loader',
-        //   // MiniCssExtractPlugin.loader,
-        //   {
-        //     loader: 'css-loader',
-        //     options: {
-        //       modules: true,
-        //       importLoaders: 2,
-        //       sourceMap: true,
-        //     },
-        //   },
-        //   {
-        //     loader: 'postcss-loader',
-        //     options: {
-        //       sourceMap: true,
-        //       config: {
-        //         path: `${CONF_PATH}/postcss.config.js`,
-        //       },
-        //     },
-        //   },
-        //   {
-        //     loader: 'sass-loader',
-        //     options: {
-        //       sourceMap: true,
-        //       includePaths: [SRC_PATH],
-        //     },
-        //   },
-        // ],
+        use: [
+          'style-loader',
+          ...(DEV_MODE ? [] : [MiniCssExtractPlugin.loader]),
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 2,
+              sourceMap: !DEV_MODE,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: !DEV_MODE,
+              config: {
+                path: `${CONF_PATH}/postcss.config.js`,
+              },
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: !DEV_MODE,
+              includePaths: [SRC_PATH],
+            },
+          },
+        ],
       },
       {
         test: /\.jsx?$/,
-        use: ['babel-loader'], // + eslint
         exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: false,
+              presets: [
+                '@babel/preset-env',
+                '@babel/preset-react',
+                '@babel/preset-stage-0',
+              ],
+            },
+          },
+          'eslint-loader',
+        ],
       },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.html$/, loader: 'html-loader' },
@@ -90,10 +103,6 @@ const webpackConfig = {
     ],
   },
   plugins: [
-    // new MiniCssExtractPlugin({
-    //   filename: DEV_MODE ? 'styles/[name].css' : 'styles/[name].[hash].css',
-    //   chunkFilename: DEV_MODE ? 'styles/[id].css' : 'styles/[id].[hash].css',
-    // }),
     new webpack.EnvironmentPlugin([
       'NODE_ENV',
       'API_SSL',
@@ -110,14 +119,14 @@ const webpackConfig = {
       template: `html-loader!${INDEX}`,
       environment: NODE_ENV,
     }),
-    // new SWPrecacheWebpackPlugin({
-    //   cacheId: APP_NAME,
-    //   dontCacheBustUrlsMatching: /\.\w{8}\./,
-    //   filename: 'service-worker.js',
-    //   minify: true,
-    //   navigateFallback: `${BASE_URL}/index.html`,
-    //   staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-    // }),
+    new SWPrecacheWebpackPlugin({
+      cacheId: APP_NAME,
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      minify: true,
+      navigateFallback: `${BASE_URL}/index.html`,
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    }),
   ],
 }
 
@@ -125,17 +134,26 @@ if (NODE_ENV !== 'production') {
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
   webpackConfig.entry.app.push('webpack-hot-middleware/client?timeout=10000')
 } else {
-  webpackConfig.plugins.push(new UglifyJsPlugin({
-    sourceMap: true,
-    parallel: true,
-    uglifyOptions: {
-      keep_classnames: false,
-      keep_fnames: false,
-      output: {
-        comments: false,
-        beautify: false,
-      },
-    },
+  webpackConfig.optimization = {
+    minimizer: [
+      new UglifyJsPlugin({
+        sourceMap: true,
+        parallel: true,
+        uglifyOptions: {
+          keep_classnames: false,
+          keep_fnames: false,
+          output: {
+            comments: false,
+            beautify: false,
+          },
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
+  }
+  webpackConfig.plugins.push(new MiniCssExtractPlugin({
+    filename: DEV_MODE ? 'styles/[name].css' : 'styles/[name].[hash].css',
+    chunkFilename: DEV_MODE ? 'styles/[id].css' : 'styles/[id].[hash].css',
   }))
 }
 

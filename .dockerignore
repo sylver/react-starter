@@ -1,0 +1,19 @@
+# VCS files
+.git*
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# Static artifacts
+node_modules
+
+# Build artifacts
+dist
+
+# Debug files
+npm-debug.log
+yarn-error.log
+
+# Local sensitive data files
+.env*

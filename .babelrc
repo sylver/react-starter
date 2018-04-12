@@ -5,8 +5,24 @@
     "@babel/preset-stage-0"
   ],
   "plugins": [
-    "react-hot-loader/babel",
-    "inline-dotenv",
-    "dynamic-import-node"
-  ]
+    "inline-dotenv"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "node": {
+      "plugins": [
+        "dynamic-import-node",
+        [
+          "transform-require-ignore",
+          {
+            "extensions": [".sass", ".scss", ".less"]
+          }
+        ]
+      ]
+    }
+  }
 }
