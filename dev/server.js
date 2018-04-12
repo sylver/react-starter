@@ -28,19 +28,29 @@ class DevServer extends Server {
       }),
     ])
 
-    this.path = `${SRC_PATH}/client`
+    this.basePath = SRC_PATH
 
     this.fs = this.compiler.outputFileSystem
     this.template = join(this.compiler.outputPath, '../server/templates/index.ejs')
-    this.watcher = chokidar.watch(this.path)
+    this.watcher = chokidar.watch(`${this.basePath}/client`)
   }
 
   start (port, callback) {
-    // this.watcher.on('change', () => {
-    //   Object.keys(require.cache).forEach(key => { delete require.cache[key] })
-    //   import(`${this.path}/app`).then(module => { this.App = module.default })
-    // })
+    this.watcher.on('change', path => {
+      this.clearCacheItem(path)
+
+      import(`${this.basePath}/client/app`)
+        .then(module => { this.App = module.default })
+        .catch(err => { throw new Error(`Unable to import App : ${err}`) })
+    })
     super.start(port, callback)
+  }
+
+  clearCacheItem = path => {
+    console.log(`clearing ${path}`);
+    const cacheItem = require.cache[path]
+    cacheItem && cacheItem.parent && this.clearCacheItem(cacheItem.parent.id)
+    delete require.cache[path]
   }
 }
 

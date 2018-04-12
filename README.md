@@ -14,3 +14,24 @@
 - TypeScript
 - Tests with Jest+Enzyme
 
+## How to use it
+
+- Clone this repo
+- create a `.env` file  
+`make .env`
+
+### dev
+- run a dev server with hot reloading  
+`yarn dev`
+
+
+### prod
+- build the `dist` folder  
+`yarn build`
+- run the production server  
+`yarn start`
+
+### Docker
+
+A docker config is available mainly for dev purposes right now.  
+I will improve it later.

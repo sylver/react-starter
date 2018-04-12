@@ -14,15 +14,16 @@ import { StaticRouter } from 'react-router-dom'
 import { PORT, SSL, DIST_PATH, APP_NAME } from '../common/env'
 import { ForceSSLMiddleware } from './middleware'
 
-import App from '../client/app'
+// import App from '../client/app'
 
 class Server {
   constructor () {
     this.app = express()
     this.server = http.createServer(this.app)
     this.fs = fs
-    this.template = join(DIST_PATH, 'server/templates/index.ejs')
-    this.staticPath = join(DIST_PATH, 'static')
+    this.basePath = DIST_PATH
+    this.template = join(this.basePath, 'server/templates/index.ejs')
+    this.staticPath = join(this.basePath, 'static')
 
     this.app.disable('x-powered-by')
     this.app.use(morgan('combined'))
@@ -35,8 +36,12 @@ class Server {
   start (port, callback) {
     this.app.use(express.static(this.staticPath))
 
+    import(`${this.basePath}/client/app`)
+      .then(module => { this.App = module.default })
+      .catch(err => { throw new Error(`Unable to import App : ${err}`) })
+
     this.app.get('*', (req, res, next) => {
-    //   const { App } = this
+      const { App } = this
       const context = {}
       const app = (
         <StaticRouter context={context} location={req.url}>

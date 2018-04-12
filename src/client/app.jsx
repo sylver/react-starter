@@ -8,8 +8,7 @@ import { DEV_MODE } from '../common/env'
 import { HomePage, ContactPage, AboutPage } from './pages'
 
 // import webpacklogo from './content/webpack.svg'
-import './styles/main.scss'
-import './styles/test.sass'
+import './styles/main.sass'
 
 const App = () => (
   <Fragment>
@@ -30,7 +29,7 @@ const App = () => (
       <Route path="/contact" component={ContactPage} />
     </main>
     <footer>
-        React16 webpack4 Example
+      React16 Webpack4 Babel7 SSR HMR example &copy; 2018 Richard KEMP @sylv3r
     </footer>
   </Fragment>
 )
