@@ -12,6 +12,8 @@ import {
   NODE_ENV, DEV_MODE,
 } from '../src/common/env'
 
+import babelConfig from './babel.config.js'
+
 const webpackConfig = {
   mode: NODE_ENV,
   entry: {
@@ -73,14 +75,10 @@ const webpackConfig = {
         use: [
           {
             loader: 'babel-loader',
-            options: {
-              babelrc: false,
-              presets: [
-                '@babel/preset-env',
-                '@babel/preset-react',
-                '@babel/preset-stage-0',
-              ],
-            },
+            options: Object.assign(
+              { babelrc: false },
+              babelConfig({ webpack: true }),
+            ),
           },
           'eslint-loader',
         ],

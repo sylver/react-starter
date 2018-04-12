@@ -5,5 +5,5 @@
     "js": "-r @babel/register"
   },
   "ext": "js,mjs,json",
-  "watch": ["src/server", "index.js", "config", ".babelrc"]
+  "watch": ["src/server", "index.js", "config", ".babelrc.js"]
 }
