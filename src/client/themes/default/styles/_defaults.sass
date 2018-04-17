@@ -1,0 +1,68 @@
+html, body
+  // overflow: hidden
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  font-size: calc(62.5% + .5vw)
+  height: 100%
+
+  @media (max-width: 600px)
+    font-size: 62.5% // Snook's trick
+
+body > div
+  margin: 0
+  padding: 0
+  display: flex
+  flex-flow: row wrap
+  box-sizing: border-box
+  font-size: 1.4rem
+
+body > div > *
+    box-sizing: border-box
+    border: 1px solid black
+    padding: 2rem
+
+html, body, input, textarea
+  font-family: Lato, sans-serif
+  font-weight: 300
+
+fieldset
+  border: 0 none
+
+a
+  cursor: pointer
+
+h1, h2, h3, h4, h5
+  font-family: Bebas, sans-serif
+  font-weight: 500
+  font-size: 1.8rem
+  margin-top: 0.6rem
+  margin-bottom: 1rem
+  box-sizing: border-box
+
+h1
+  word-spacing: 1rem
+
+h2
+  font-size: 1.6rem
+
+h3
+  font-family: Open Sans, sans-serif
+  font-weight: 600
+  font-size: 1.4rem
+
+footer
+  font-size: 0.8rem
+  font-style: italic
+
+p
+  font-size: 0.9rem
+
+ul
+  list-style-type: none
+  padding: 0
+  li
+    margin: 1rem 0
+
+*:focus
+    outline: none

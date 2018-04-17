@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Route, Link } from 'react-router-dom'
 import { hot } from 'react-hot-loader'
 
@@ -7,13 +7,13 @@ import { DEV_MODE } from '../common/env'
 
 import { HomePage, ContactPage, AboutPage } from './pages'
 
-// import webpacklogo from './content/webpack.svg'
-import './styles/main.sass'
+import Katalyzer from './vendors/katalyzer'
+import defaultTheme from './themes/default'
 
 const App = () => (
-  <Fragment>
+  <Katalyzer theme={defaultTheme}>
     <header>
-      <h1>React16 webpack4 Example</h1>
+      <h1>React16 Webpack4 Example</h1>
     </header>
     <nav>
       <ul>
@@ -29,9 +29,9 @@ const App = () => (
       <Route path="/contact" component={ContactPage} />
     </main>
     <footer>
-      React16 Webpack4 Babel7 SSR HMR example &copy; 2018 Richard KEMP @sylv3r
+      React16 Webpack4 Babel7 SSR HMR example &copy; @sylv3r
     </footer>
-  </Fragment>
+  </Katalyzer>
 )
 
 export default DEV_MODE ? hot(module)(App) : App
