@@ -6,7 +6,7 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 
-import { SRC_PATH, PORT } from '../src/common/env'
+import { SRC_PATH, PORT, SSR } from '../src/common/env'
 import webpackConfig from '../config/webpack'
 import Server from '../src/server'
 
@@ -36,7 +36,7 @@ class DevServer extends Server {
   }
 
   start (port, callback) {
-    this.watcher.on('change', path => {
+    SSR && this.watcher.on('change', path => {
       this.clearCacheItem(path)
 
       import(`${this.basePath}/client/app`)
@@ -47,7 +47,6 @@ class DevServer extends Server {
   }
 
   clearCacheItem = path => {
-    console.log(`clearing ${path}`);
     const cacheItem = require.cache[path]
     cacheItem && cacheItem.parent && this.clearCacheItem(cacheItem.parent.id)
     delete require.cache[path]

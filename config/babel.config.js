@@ -21,12 +21,12 @@ module.exports = ({ webpack = false } = {}) => {
   const nodeEnv = {
     "plugins": [
       "dynamic-import-node",
-      [
-        "transform-require-ignore",
-        {
-          "extensions": [".sass", ".scss", ".less"]
-        }
-      ]
+      // [
+      //   "transform-require-ignore",
+      //   {
+      //     "extensions": [".sass", ".scss", ".less"]
+      //   }
+      // ]
     ]
   }
 

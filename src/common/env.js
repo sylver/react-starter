@@ -26,6 +26,7 @@ export const DEV_MODE = process.env.NODE_ENV !== 'production'
 
 export const APP_NAME = process.env.APP_NAME || 'app'
 export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE || 'en'
+export const SSR = process.env.SSR ? process.env.SSR === 'true' : false
 
 export const API_SSL = process.env.API_SSL
   ? process.env.API_SSL === 'true'
