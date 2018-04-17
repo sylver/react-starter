@@ -1,17 +1,21 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react'
-import { Route, Link } from 'react-router-dom'
-import { hot } from 'react-hot-loader'
+import React            from 'react'
+import { Helmet }       from 'react-helmet'
+import { Route, Link }  from 'react-router-dom'
+import { hot }          from 'react-hot-loader'
 
 import { DEV_MODE } from '../common/env'
 
 import { HomePage, ContactPage, AboutPage } from './pages'
 
-import Katalyzer from './vendors/katalyzer'
+import Katalyzer    from './vendors/katalyzer'
 import defaultTheme from './themes/default'
 
 const App = () => (
   <Katalyzer theme={defaultTheme}>
+    <Helmet titleTemplate="React Starter - %s" defaultTitle="React Starter">
+      <meta name="description" content="React16 starter app example" />
+    </Helmet>
     <header>
       <h1>React16 Webpack4 Example</h1>
     </header>

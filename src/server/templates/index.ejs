@@ -2,8 +2,9 @@
 
 <html>
   <head>
-    <title><%= title %></title>
+    <%- title -%>
 
+    <%- meta %>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html">
@@ -14,9 +15,13 @@
 
     <link rel="icon" type="image/png" href="/assets/logo.png" />
     <link rel="apple-touch-icon" href="/assets/logo.png" />
+    <%- link -%>
+
+    <%- style %>
   </head>
 
   <body>
+    <noscript>Please activate JavaScript in order to use this app.</noscript>
     <div id="app"><%- app %></div>
   </body>
 </html>

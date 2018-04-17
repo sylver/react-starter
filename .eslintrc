@@ -14,6 +14,7 @@
     "no-unused-expressions": [0, { "allowShortCircuit": true }],
     "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
     "space-before-function-paren": [2, "always"],
+    "object-curly-newline": [2, { "consistent": true }],
     "no-unused-vars": [2, { "argsIgnorePattern": "^_" }],
     "jsx-a11y/anchor-is-valid": [ "error", {
       "components": [ "Link" ],

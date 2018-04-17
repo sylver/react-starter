@@ -7,9 +7,10 @@ import fs         from 'fs'
 import { join }   from 'path'
 import { render } from 'ejs'
 
-import React      from 'react'
+import React              from 'react'
+import { Helmet }         from 'react-helmet'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom'
+import { StaticRouter }   from 'react-router-dom'
 
 import { PORT, SSL, DIST_PATH, APP_NAME, SSR } from '../common/env'
 import { ForceSSLMiddleware } from './middleware'
@@ -50,10 +51,16 @@ class Server {
         if (err) {
           next(err)
         } else {
+          const renderedApp = SSR ? renderToString(app) : ''
+          const { title, meta, style, link } = Helmet.renderStatic()
           const data = {
-            app: SSR ? renderToString(app) : '',
-            title: APP_NAME,
+            app: renderedApp,
+            title: SSR ? title.toString() : `<title>${APP_NAME}</title>`,
+            meta: meta.toString(),
+            style: style.toString(),
+            link: link.toString(),
           }
+
           res.writeHead(200, { 'Content-Type': 'text/html' })
           res.end(render(template, data))
         }
