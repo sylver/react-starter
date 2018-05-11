@@ -17,8 +17,10 @@
 ## How to use it
 
 - Clone this repo
-- create a `.env` file  
+- Create a `.env` file  
 `make .env`
+- Install dependencies  
+`yarn install`
 
 ### dev
 - run a dev server with hot reloading  
